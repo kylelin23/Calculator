@@ -1,1 +1,95 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset = "utf-8">
+        <title>Calculator</title>
+        <link rel = "stylesheet" href = "styles.css">
+    </head>
+    <body>
+        <div id = "display">Display: </div>
+        <div id = "buttons">
+            <div id = "operations">
+                <button id = "+" class = "operation">+</button>
+                <button id = "-" class = "operation">-</button>
+                <button id = "*" class = "operation">*</button>
+                <button id = "/" class = "operation">/</button>
+            </div>
+            <div id = "numbers"></div>
+            <div id = "rest">
+                <button id = "equal">=</button>
+                <button id = "clear">clear</button>
+            </div>
+        </div>
+        <script>
+            function operate(num1, num2, operation){
+                // Do specified operation on two given numbers
+                num1 = parseInt(num1);
+                num2 = parseInt(num2);
+                if(operation == "+"){
+                    return num1+num2;
+                }
+                if(operation == "-"){
+                    return num1-num2;
+                }
+                if(operation == "*"){
+                    return num1*num2;
+                }
+                else{
+                    return num1/num2;
+                }
+            }
 
+            // Create number buttons
+            for(let i = 0; i < 10; i++){
+                const btn = document.createElement("button");
+                btn.classList.add("number");
+                btn.textContent = i;
+                const buttons = document.getElementById("numbers");
+                buttons.append(btn);
+                btn.addEventListener("click", () => {
+                    const display = document.getElementById("display");
+                    display.textContent = display.textContent + btn.textContent;
+                });
+            }
+            
+            // Operation button event listeners
+            const operations = document.querySelectorAll(".operation");
+            operations.forEach((operation) => {
+                operation.addEventListener("click", () => {
+                    const display = document.getElementById("display");
+                    display.textContent = display.textContent + " " + operation.textContent + " ";
+                });
+            });
+
+            // Equal Button
+            const equal = document.getElementById("equal");
+            equal.addEventListener("click", () => {
+                const display = document.getElementById("display");
+                let num1;
+                let num2;
+                let operation = 0;
+                for(let i = 0; i < display.textContent.length; i++){
+                    if(display.textContent.charAt(i) == '+' || display.textContent.charAt(i) == '-' || display.textContent.charAt(i) == '*' || display.textContent.charAt(i) == '/'){
+                        num1 = display.textContent.substring(9,i - 1);
+                        num2 = display.textContent.substring(i+2);
+                        operation = display.textContent.substring(i, i+1);
+                    }
+                }
+                if(operation == 0){
+                    display.textContent = "Display: " + display.textContent.substring(9);
+                }
+                else{
+                    display.textContent = "Display: " + operate(num1, num2, operation);
+                }
+            });
+
+            // Make clear button
+            const clear = document.getElementById("clear");
+            clear.addEventListener("click", () => {
+                const display = document.getElementById("display");
+                display.textContent = "Display: ";
+            })
+
+        </script>
+    </body>
+</html>

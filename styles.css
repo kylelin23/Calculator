@@ -1,1 +1,30 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    background-color:cadetblue
+}
 
+#buttons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+button{
+    width: 50px;
+    height: 50px;
+}
+
+#display{
+    display: flex;
+    justify-content: center;
+    font-size: 100px;
+    color:palegreen
+}
+
+#numbers{
+    display: flex;
+    gap: 4px;
+}

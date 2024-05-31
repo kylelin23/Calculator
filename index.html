@@ -23,8 +23,8 @@
         <script>
             function operate(num1, num2, operation){
                 // Do specified operation on two given numbers
-                num1 = parseInt(num1);
-                num2 = parseInt(num2);
+                num1 = parseFloat(num1);
+                num2 = parseFloat(num2);
                 if(operation == "+"){
                     return num1+num2;
                 }
@@ -35,10 +35,13 @@
                     return num1*num2;
                 }
                 else{
+                    if(num2 == 0){
+                        return("No dividing by zero! ");
+                    }
                     return num1/num2;
                 }
             }
-
+            let counter = 0;
             // Create number buttons
             for(let i = 0; i < 10; i++){
                 const btn = document.createElement("button");
@@ -47,8 +50,11 @@
                 const buttons = document.getElementById("numbers");
                 buttons.append(btn);
                 btn.addEventListener("click", () => {
-                    const display = document.getElementById("display");
-                    display.textContent = display.textContent + btn.textContent;
+                    if(counter <= 12){
+                        const display = document.getElementById("display");
+                        display.textContent = display.textContent + btn.textContent;
+                    }
+                    counter++;                    
                 });
             }
             
@@ -56,8 +62,11 @@
             const operations = document.querySelectorAll(".operation");
             operations.forEach((operation) => {
                 operation.addEventListener("click", () => {
-                    const display = document.getElementById("display");
-                    display.textContent = display.textContent + " " + operation.textContent + " ";
+                    if(counter <= 12){
+                        const display = document.getElementById("display");
+                        display.textContent = display.textContent + " " + operation.textContent + " ";
+                    }
+                    counter += 3;
                 });
             });
 
@@ -75,17 +84,28 @@
                         operation = display.textContent.substring(i, i+1);
                     }
                 }
-                if(operation == 0){
+                if(operation == 0){ // No operation
                     display.textContent = "Display: " + display.textContent.substring(9);
                 }
                 else{
-                    display.textContent = "Display: " + operate(num1, num2, operation);
+                    let result = operate(num1, num2, operation);
+                    if(typeof result == "number"){ // Putting a limit to decimals
+                        if(result % 10 != 0){ // If there are decimals: 
+                            result = String(result);
+                            if(result.length > 9){
+                                result = result.substring(0,8);
+                            }
+                        }
+                    }
+                    display.textContent = "Display: " + result;
                 }
+                counter = display.textContent.length - 9;
             });
 
             // Make clear button
             const clear = document.getElementById("clear");
             clear.addEventListener("click", () => {
+                counter = 0;
                 const display = document.getElementById("display");
                 display.textContent = "Display: ";
             })
